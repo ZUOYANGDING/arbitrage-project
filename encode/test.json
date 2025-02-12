@@ -1,0 +1,16 @@
+{
+    "init_amount": 1000000000000000000,
+    "min_profit": 1000000000000000,
+    "swap_steps": [
+        {
+            "is_uniswap_v3": false,
+            "sell_token1": false,
+            "pool_addr": "0xB98E0Fb673e5a0C6e15F1D0a9f36E7dA954A0D5E"
+        },
+        {
+            "is_uniswap_v3": true,
+            "sell_token1": true,
+            "pool_addr": "0xD2BD10D3f2e3a057F0040663B1EEbf4d1874fEAB"
+        }
+    ]
+}
