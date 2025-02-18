@@ -20,17 +20,18 @@ contract MockUniswapV2Pool {
     ) external {
         require(to != address(0), "Invalid recipient");
 
-        uint256 swapAmount = amount0Out > 0 ? amount0Out : amount1Out;
+        uint256 base = amount0Out > 0 ? amount0Out : amount1Out;
+        // uint256 profitMargin = base / 1000; // 0.1% profit margin
+        // uint256 received = base + uint256(profitMargin);
 
         // Transfer tokens to recipient
-        token.transfer(to, swapAmount);
+        token.transfer(to, base);
 
-        AtomicArbitrage(to).uniswapV2Call(
-            msg.sender,
-            amount0Out,
-            amount1Out,
-            data
-        );
+        if (amount0Out > 0) {
+            AtomicArbitrage(to).uniswapV2Call(msg.sender, base, 0, data);
+        } else {
+            AtomicArbitrage(to).uniswapV2Call(msg.sender, 0, base, data);
+        }
     }
 
     function token0() external view returns (address) {

@@ -5,7 +5,7 @@ module.exports = {
   networks: {
     hardhat: { // Local Testnet
       forking: {
-        url: "https://eth-sepolia.g.alchemy.com/v2/MY_API_KEY", // Fork mainnet
+        url: "https://eth-sepolia.g.alchemy.com/v2/MY_ALCHEMY_API_KEY", // Fork mainnet
       },
     },
     localhost: { // Connect tests to running Hardhat node

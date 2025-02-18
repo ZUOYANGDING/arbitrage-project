@@ -13,7 +13,7 @@ contract MockUniswapV3Pool {
 
     function swap(
         address recipient,
-        bool /*isToken1*/,
+        bool isToken1,
         int256 amountSpecified,
         uint160 /*sqrtPriceLimitX96*/,
         bytes calldata data
@@ -23,15 +23,17 @@ contract MockUniswapV3Pool {
         uint256 amount = uint256(
             amountSpecified > 0 ? amountSpecified : -amountSpecified
         );
+        int256 profitMargin = amountSpecified / 1000; // 0.1% profit margin
+        int256 received = int256(amount) + profitMargin;
 
         // Transfer the tokens to the recipient
-        token.transfer(recipient, amount);
+        token.transfer(recipient, uint256(received));
 
-        AtomicArbitrage(recipient).uniswapV3SwapCallback(
-            int256(amount),
-            0,
-            data
-        );
+        if (isToken1) {
+            AtomicArbitrage(recipient).uniswapV3SwapCallback(received, 0, data);
+        } else {
+            AtomicArbitrage(recipient).uniswapV3SwapCallback(0, received, data);
+        }
     }
 
     function token0() external view returns (address) {
